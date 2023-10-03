@@ -1,9 +1,7 @@
 package com.example.lab3
 
 import android.os.Bundle
-import com.google.gson.GsonBuilder
 import android.util.Log
-import android.widget.TextView
 import androidx.appcompat.app.AppCompatActivity
 import androidx.recyclerview.widget.LinearLayoutManager
 import androidx.recyclerview.widget.RecyclerView
@@ -42,24 +40,29 @@ class MainActivity : AppCompatActivity() {
             override fun onResponse(call: okhttp3.Call, response: okhttp3.Response) {
                 runOnUiThread {
                     val countryList = mutableListOf<String>()
+                    val countryImageList = mutableListOf<String>()
                     val res = response.body!!.string()
 
-                    val regex = """<td><a href=\"/country/[a-z]+/\">(.*?)</a></td>""".toRegex()
-                    val matcher = regex.findAll(res)
+                    val nameRegex = """<td><a href=\"/country/[a-z]+/\">(.*?)</a></td>""".toRegex()
+                    val imgSrcRegex = """разрешении"><img src="(.*?)"""".toRegex()
+                    val cl = nameRegex.findAll(res)
+                    val cil =imgSrcRegex.findAll(res)
 
-                    for (m in matcher) {
+                    for (m in cl) {
                         countryList.add(m.groupValues[1])
                     }
-                    countryList.forEach {
-                        Log.i("Z", it)
+                    for (m in cil){
+                        countryImageList.add(m.groupValues[1])
                     }
-                    rv.adapter = RAdapter(countryList, findViewById(R.id.imageView))
+
+                    rv.adapter = RAdapter(countryList, findViewById(R.id.imageView), countryImageList)
                 }
             }
 
-
-
         })
+
+
+
     }
 
 }
