@@ -14,7 +14,7 @@ class RAdapter(val countryList: MutableList<String>, val iv: ImageView, val cil:
     RecyclerView.Adapter<RViewHolder>() {
     override fun onCreateViewHolder(parent: ViewGroup, viewType: Int): RViewHolder {
         val item = LayoutInflater.from(parent.context).inflate(R.layout.r_item, parent, false)
-        return RViewHolder(item, iv, cil)
+        return RViewHolder(item)
     }
 
     override fun getItemCount(): Int {
