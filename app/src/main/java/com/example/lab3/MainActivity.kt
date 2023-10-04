@@ -24,13 +24,10 @@ class MainActivity : AppCompatActivity() {
         rv.layoutManager = LinearLayoutManager(this)
 
 
-
     }
 
-    private fun getCountyList(rv:RecyclerView) {
-        val request = Request.Builder()
-            .url("https://ru.freeflagicons.com/list/")
-            .build()
+    private fun getCountyList(rv: RecyclerView) {
+        val request = Request.Builder().url("https://ru.freeflagicons.com/list/").build()
 
         okClient.newCall(request).enqueue(object : okhttp3.Callback {
             override fun onFailure(call: okhttp3.Call, e: IOException) {
@@ -43,24 +40,24 @@ class MainActivity : AppCompatActivity() {
                     val countryImageList = mutableListOf<String>()
                     val res = response.body!!.string()
 
-                    val nameRegex = """<td><a href=\"/country/[a-z]+/\">(.*?)</a></td>""".toRegex()
+                    val nameRegex = """<td><a href=\"/country/\w+/\">(.*?)</a></td>""".toRegex()
                     val imgSrcRegex = """разрешении"><img src="(.*?)"""".toRegex()
                     val cl = nameRegex.findAll(res)
-                    val cil =imgSrcRegex.findAll(res)
+                    val cil = imgSrcRegex.findAll(res)
 
                     for (m in cl) {
                         countryList.add(m.groupValues[1])
                     }
-                    for (m in cil){
+                    for (m in cil) {
                         countryImageList.add(m.groupValues[1])
                     }
 
-                    rv.adapter = RAdapter(countryList, findViewById(R.id.imageView), countryImageList)
+                    rv.adapter =
+                        RAdapter(countryList, findViewById(R.id.imageView), countryImageList)
                 }
             }
 
         })
-
 
 
     }
