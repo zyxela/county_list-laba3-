@@ -31,10 +31,18 @@ class RAdapter(val countryList: MutableList<String>, val iv: ImageView, val cil:
                 holder.itemView.context,
                 R.anim.zoom_rotate_anim
             )
+            tv.startAnimation(AnimationUtils.loadAnimation(holder.itemView.context, R.anim.zoom))
             iv.startAnimation(anim)
         }
     }
 }
 
 class RViewHolder(itemView: View) :
-    RecyclerView.ViewHolder(itemView)
+    RecyclerView.ViewHolder(itemView){
+    init {
+       val tv =  itemView.findViewById<TextView>(R.id.countryName)
+        itemView.setOnClickListener {
+            tv.startAnimation(AnimationUtils.loadAnimation(itemView.context, R.anim.zoom))
+        }
+    }
+    }
